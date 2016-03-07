@@ -13,9 +13,13 @@ var bookRouter = express.Router();
 
 bookRouter.route('/Books')
   .get(function(req,res) {
+    //Adding a filtering option [Module: 2 - Getting Data]
+    var query = {};
 
-    var query = req.query;
-    Book.find(function(err,books) {
+    if(req.query.genre) {
+      query.genre = req.query.genre; //Only allows us to filter on that one piece
+    }
+    Book.find(query, function(err,books) {
       if(err)
         res.status(500).send(err);
       else
