@@ -27,6 +27,23 @@ bookRouter.route('/Books')
     });
   });
 
+//Utilizing ID to return single item [Module: 2 - Getting a Single Item]
+bookRouter.route('/Books/:bookId')
+.get(function(req,res) {
+  //Adding a filtering option [Module: 2 - Getting Data]
+  var query = {};
+
+  if(req.query.genre) {
+    query.genre = req.query.genre; //Only allows us to filter on that one piece
+  }
+  Book.findById(req.params.bookId, function(err,book) {
+    if(err)
+      res.status(500).send(err);
+    else
+      res.json(book);
+  });
+});
+
 app.use('/api', bookRouter);
 
 app.get('/', function(req, res) {
